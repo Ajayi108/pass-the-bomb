@@ -1,0 +1,2 @@
+body{margin:0;background:#102b57;color:#f4f8ff;font-family:system-ui,sans-serif;color-scheme:dark;padding:16px max(16px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+#game,.offline{max-width:900px;margin:auto}.offline{padding:18px 0}.offline h2{font-size:20px}.offline p{font-size:13px}.offline a{color:#9ad0ff}.offline button{width:100%;max-width:480px}button:disabled{opacity:.45}.offline details{overflow-wrap:anywhere}

@@ -51,9 +51,13 @@ export default function(component) {
       if (file.size > 15 * 1024 * 1024 || !file.size) throw Error('Audio uploads must be nonempty and no larger than 15 MB.');
       bytes = await file.arrayBuffer();
     } else {
+      if (data.loadAudio) {
+        bytes = await data.loadAudio(kind,index);
+      } else {
       const encoded = kind === 'music' ? tracks[index]?.audio : data.explosion;
       if (!encoded) throw Error('Bundled audio is missing. See ASSET_CREDITS.md or upload an MP3/WAV.');
       bytes = Uint8Array.from(atob(encoded), c => c.charCodeAt(0)).buffer;
+      }
     }
     let buffer;
     try { buffer = await ctx.decodeAudioData(bytes); } catch { throw Error('This audio could not be decoded. Try a standard MP3 or PCM WAV file.'); }
@@ -61,7 +65,7 @@ export default function(component) {
     if (buffer.duration > 600) throw Error('Choose audio shorter than 10 minutes.');
     cache.set(key, buffer); return buffer;
   }
-  function pick() { return $('track').value === 'random' ? Math.floor(random()*tracks.length) : Number($('track').value); }
+  function pick() { if (data.chooseTrack && $('track').value === 'random') return data.chooseTrack(); return $('track').value === 'random' ? Math.floor(random()*tracks.length) : Number($('track').value); }
   function source(buffer, volume, loop) {
     const s = ctx.createBufferSource(), g = ctx.createGain();
     s._gain = g; s.buffer = buffer; s.loop = loop; g.gain.value = volume;
@@ -76,7 +80,8 @@ export default function(component) {
       config = validate(); const resumed = unlock(); cancel(); token = generation;
       $('error').textContent = ''; show('Loading Audio','Getting the beat ready…','Preparing music and explosion.');
       await resumed;
-      const [music,blast] = await Promise.all([decode('music',pick()),decode('blast')]);
+      const selected = await pick();
+      const [music,blast] = await Promise.all([decode('music',selected),decode('blast')]);
       if (token !== generation || disposed) return;
       if (ctx.state !== 'running') throw Error('Audio is suspended. Press Start again to enable playback.');
       const when = ctx.currentTime + .08;
@@ -110,7 +115,7 @@ export default function(component) {
     let token = generation;
     try {
       const resumed = unlock(); cancel(); token = generation; $('error').textContent = '';
-      await resumed; const buffer = await decode(kind,pick());
+      await resumed; const buffer = await decode(kind,await pick());
       if (token !== generation || busy() || disposed) return;
       const s = source(buffer,Number($(kind === 'music' ? 'musicVolume' : 'blastVolume').value),kind === 'music');
       $('previewStatus').textContent = kind === 'music' ? 'Playing a 15-second music preview…' : 'Playing the explosion preview…';

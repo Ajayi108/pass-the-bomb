@@ -71,3 +71,7 @@ Before each round, use “Music for the next round” above Start/Next to select
 The expanded library includes Exit the Premises (driving electronic dance) and Sneaky Snitch (playful suspense). Mission: Impossible is not bundled: no license permitting public-repository redistribution was established. To use an authorized MP3/WAV copy for your session, open Round settings → Use your own audio → Custom music. Uploading selects that file in the round music picker. Buying or streaming a recording does not itself establish repository redistribution rights.
 
 Animation and usability update: constant-speed floating bomb, loading orbit, decorative beat bars, and a brief particle burst. Motion never reflects the remaining round duration. Disable Play animations in settings or use the operating system reduced-motion preference. Music preview controls now sit beside the track selector with live playback feedback, and volume fields display percentages. Break announcements update only when the displayed second changes.
+
+## Cloudflare standalone version
+
+Build with `python cloudflare/build.py`. Deploy using Cloudflare Pages with repository root as the root directory, build command `python cloudflare/build.py`, and output directory `cloudflare/dist`. See cloudflare/README.md for offline caching, local preview, and deployment details. Streamlit continues using app.py and shares the same game engine.

@@ -1,0 +1,9 @@
+.venv/
+.deps/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+.streamlit/secrets.toml
+
+pass-the-bomb-deploy.zip

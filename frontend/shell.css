@@ -1,0 +1,9 @@
+.stApp{background:#102b57;color:#f4f8ff;color-scheme:dark}
+header[data-testid="stHeader"]{visibility:hidden}
+.block-container{padding-top:1rem;max-width:1000px}
+[data-testid="stExpander"]{background:#17375d;border-color:#355b87;color:#f4f8ff;border-radius:15px}
+[data-testid="stExpander"] summary,[data-testid="stExpander"] p,[data-testid="stExpander"] li{color:#dbe9fa}
+[data-testid="stExpander"] a{color:#9ad0ff}
+[data-testid="stExpander"] code{background:#0d2442;color:#dbe9fa}
+[data-testid="stExpander"] th,[data-testid="stExpander"] td{border-color:#486d98}
+@media(max-width:600px){.block-container{padding:1rem 1rem 2rem!important}}

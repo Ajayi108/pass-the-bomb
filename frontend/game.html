@@ -1,0 +1,21 @@
+<div class="party">
+<header><span class="eyebrow">ONE PHONE · ONE SPEAKER · EVERYONE PLAYS</span><h1>PASS THE <em>BOMB.</em></h1><p>Pass the ball. Keep the beat. Don’t get caught.</p></header>
+<main class="arena" data-state="Ready">
+<div class="topline"><span id="state">Ready</span><span id="round">ROUND 1</span></div>
+<div class="bomb-stage" aria-hidden="true"><div class="orbit"></div><div class="bomb">💣</div><div class="burst"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="beat"><i></i><i></i><i></i><i></i><i></i></div></div>
+<h2 id="headline">Gather your circle.</h2><p id="message" role="status" aria-live="polite">Grab a soft ball. Turn up the speaker. Let’s play.</p>
+<div class="round-music"><label>Music for the next round<select id="track"><option value="random">Random each round</option><option id="customTrack" value="custom" disabled>Custom upload (add in settings)</option></select></label><p>Pick a track or let Random choose when the round starts.</p><div class="quick-audio"><button id="testMusic">▶ Preview music</button><button id="stopPreview">■ Stop preview</button></div></div><p id="previewStatus" role="status" aria-live="polite"></p>
+<div class="actions game-controls"><button id="start" class="primary">Start Round</button><button id="stop" disabled>Stop Round</button><button id="reset">Reset Game</button></div>
+<p id="error" role="alert"></p>
+</main>
+<details><summary>⚙ Round settings</summary><fieldset id="settings"><label class="check motion-setting"><input id="motion" type="checkbox" checked> Play animations</label><p class="section-label">ROUND LENGTH</p><div class="grid timing-grid">
+<label>Minimum seconds<input id="min" inputmode="decimal" type="number" min="0.1" step="0.1" value="20"></label><label>Maximum seconds<input id="max" inputmode="decimal" type="number" min="0.1" step="0.1" value="60"></label>
+</div><p class="section-label">SOUND & MUSIC</p><div class="grid"><label>Music volume <output id="musicLevel">65%</output><input id="musicVolume" type="range" min="0" max="1" step="0.01" value="0.65"></label><label>Explosion volume <output id="blastLevel">70%</output><input id="blastVolume" type="range" min="0" max="1" step="0.01" value="0.7"></label>
+</div><p class="section-label">KEEP THE PARTY GOING</p><div class="grid"><label>Auto-round break (seconds)<input id="delay" inputmode="decimal" type="number" min="1" max="300" value="8"></label>
+<label class="check"><input id="auto" type="checkbox"> Automatic next round</label>
+</div><details class="uploads"><summary>Use your own audio</summary><div class="grid"><label>Custom music<input id="musicUpload" type="file" accept=".mp3,.wav,audio/mpeg,audio/wav"></label><label>Custom explosion<input id="blastUpload" type="file" accept=".mp3,.wav,audio/mpeg,audio/wav"></label></div>
+<p>MP3 or WAV, up to 15 MB each. Uploads stay in this browser session; clear a file to restore the bundled audio.</p></details>
+<div class="actions"><button id="testBlast">Test Explosion</button></div></fieldset></details>
+<details><summary>How to Play</summary><ol><li>Stand in a circle with a soft ball.</li><li>Press Start and pass the ball while the music plays.</li><li>Whoever holds the ball when the explosion sounds loses.</li><li>If the ball is in the air, the thrower loses.</li><li>Choose elimination, a funny challenge, or a point penalty.</li></ol></details>
+<footer>Keep this tab open and your device awake. Connect your speaker before starting.</footer>
+</div>

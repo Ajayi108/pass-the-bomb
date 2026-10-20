@@ -17,6 +17,7 @@ export default function(component) {
     $('message').textContent = message; $('round').textContent = 'ROUND ' + (completed + (next === 'Exploded' || next === 'Between Rounds' ? 0 : 1));
     $('settings').disabled = busy(); $('start').disabled = busy();
     $('track').disabled = ['Loading Audio','Playing'].includes(next);
+    $('blast').disabled = busy();
     $('testMusic').disabled = busy(); $('stopPreview').disabled = busy();
     $('stop').disabled = !busy(); $('start').textContent = completed ? 'Next Round' : 'Start Round';
     root.querySelector('.bomb').textContent = ['Exploded','Between Rounds'].includes(next) ? '💥' : '💣';
@@ -42,8 +43,9 @@ export default function(component) {
   }
   function random() { return crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296; }
   async function decode(kind, index) {
-    const file = kind === 'music' ? ($('track').value === 'custom' ? $('musicUpload').files[0] : undefined) : $('blastUpload').files[0];
-    const key = file || (kind === 'music' ? 'track-' + index : 'blast');
+    const file = kind === 'music' ? ($('track').value === 'custom' ? $('musicUpload').files[0] : undefined) : ($('blast').value === 'custom' ? $('blastUpload').files[0] : undefined);
+    if (kind !== 'music') index = Number($('blast').value || 0);
+    const key = file || (kind === 'music' ? 'track-' + index : 'blast-' + index);
     if (cache.has(key)) return cache.get(key);
     let bytes;
     if (file) {
@@ -54,15 +56,24 @@ export default function(component) {
       if (data.loadAudio) {
         bytes = await data.loadAudio(kind,index);
       } else {
-      const encoded = kind === 'music' ? tracks[index]?.audio : data.explosion;
+      const asset = kind === 'music' ? tracks[index] : data.explosions?.[index];
+      if (asset?.url) {
+        const response = await fetch(asset.url);
+        if (!response.ok) throw Error('Audio download failed. Check your connection and try again.');
+        bytes = await response.arrayBuffer();
+      } else {
+      const encoded = kind === 'music' ? tracks[index]?.audio : (data.explosions?.[index]?.audio || data.explosion);
       if (!encoded) throw Error('Bundled audio is missing. See ASSET_CREDITS.md or upload an MP3/WAV.');
       bytes = Uint8Array.from(atob(encoded), c => c.charCodeAt(0)).buffer;
+      }
       }
     }
     let buffer;
     try { buffer = await ctx.decodeAudioData(bytes); } catch { throw Error('This audio could not be decoded. Try a standard MP3 or PCM WAV file.'); }
     // Bound decoded memory and stop users accidentally selecting enormous files.
     if (buffer.duration > 600) throw Error('Choose audio shorter than 10 minutes.');
+    // Keep phone memory bounded as the host explores the larger library.
+    while (cache.size >= 3) cache.delete(cache.keys().next().value);
     cache.set(key, buffer); return buffer;
   }
   function pick() { if (data.chooseTrack && $('track').value === 'random') return data.chooseTrack(); return $('track').value === 'random' ? Math.floor(random()*tracks.length) : Number($('track').value); }
@@ -135,10 +146,16 @@ export default function(component) {
       $('customTrack').disabled = !file;
       $('customTrack').textContent = file ? 'Uploaded: ' + file.name : 'Custom upload (add in settings)';
       $('track').value = file ? 'custom' : 'random';
+    } else {
+      const file = $('blastUpload').files[0];
+      $('customBlast').disabled = !file;
+      $('customBlast').textContent = file ? 'Uploaded: ' + file.name : 'Custom explosion (add in settings)';
+      $('blast').value = file ? 'custom' : '0';
     }
   });
   $('motion').onchange = () => { root.querySelector('.party').dataset.motion = $('motion').checked ? 'on' : 'off'; };
   [['musicVolume','musicLevel'],['blastVolume','blastLevel']].forEach(([slider,label]) => { $(slider).oninput = () => { $(label).textContent = Math.round(Number($(slider).value)*100) + '%'; }; });
+  $('blast').onchange = () => { if (!busy()) cancel(); };
   $('track').onchange = () => { if (!busy()) cancel(); };
   const visibility = () => { if (document.hidden && busy()) { cancel(); show('Stopped','Round interrupted.','The tab was hidden. No elimination; press Start when ready.'); } };
   document.addEventListener('visibilitychange',visibility);

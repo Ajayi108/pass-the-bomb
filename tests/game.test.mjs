@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const code=readFileSync(new URL('../frontend/game.js',import.meta.url),'utf8');
 const {default:mount}=await import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));
-function fixture(){
+function fixture(overrides={}){
  const els=new Map();
  const get=id=>{if(!els.has(id))els.set(id,{value:'',textContent:'',files:[],dataset:{},appendChild(){}});return els.get(id)};
  Object.entries({min:'0.1',max:'0.2',delay:'1',track:'random',musicVolume:'.5',blastVolume:'.7'}).forEach(([id,v])=>get(id).value=v);
@@ -11,10 +11,10 @@ function fixture(){
  globalThis.requestAnimationFrame=fn=>{frames.set(++seq,fn);return seq};globalThis.cancelAnimationFrame=id=>frames.delete(id);
  globalThis.document={hidden:false,createElement:()=>({}),addEventListener(){},removeEventListener(){}};
  const sources=[];
- class AudioContext{constructor(){this.currentTime=0;this.state='running';fixture.ctx=this}resume(){return Promise.resolve()}close(){this.state='closed'}decodeAudioData(){return Promise.resolve({duration:0.05})}createGain(){return {gain:{},connect(){},disconnect(){}}}createBufferSource(){const s={connect(){return {connect(){}}},disconnect(){},start(t){this.started=t},stop(t){this.stopped=t;this.stops=(this.stops||0)+1}};sources.push(s);return s}}
+ class AudioContext{constructor(){this.currentTime=0;this.state='running';fixture.ctx=this}resume(){return Promise.resolve()}close(){this.state='closed'}decodeAudioData(bytes){return Promise.resolve({duration:0.05,tag:new Uint8Array(bytes)[0]})}createGain(){return {gain:{},connect(){},disconnect(){}}}createBufferSource(){const s={connect(){return {connect(){}}},disconnect(){},start(t){this.started=t},stop(t){this.stopped=t;this.stops=(this.stops||0)+1}};sources.push(s);return s}}
  globalThis.window={AudioContext};
  const root={querySelector:q=>get(q.startsWith('#')?q.slice(1):q)};
- const cleanup=mount({parentElement:root,data:{tracks:[{title:'A',audio:'AAAA'}],explosion:'AAAA'}});
+ const cleanup=mount({parentElement:root,data:{tracks:[{title:'A',audio:'AAAA'}],explosion:'AAAA',...overrides}});
  return {get,sources,cleanup,advance(t){fixture.ctx.currentTime=t;const jobs=[...frames.values()];frames.clear();jobs.forEach(f=>f())}};
 }
 test('one start, loop and synchronized explosion, next and reset',async()=>{
@@ -41,4 +41,11 @@ test('auto next round counts down, restarts and can be cancelled',async()=>{
 });
 test('stop while decoding prevents stale start and custom WAV is accepted',async()=>{
  const f=fixture();f.get('track').value='custom';f.get('musicUpload').files=[{name:'ok.wav',size:4,arrayBuffer:async()=>new ArrayBuffer(4)}];const p=f.get('start').onclick();f.get('stop').onclick();await p;assert.equal(f.sources.length,0);await f.get('start').onclick();assert.equal(f.get('state').textContent,'Playing');f.cleanup();
+});
+
+test('host-selected explosion stays fixed across rounds and previews',async()=>{
+ const f=fixture({explosions:[{audio:'AAAA'},{audio:'AQAA'},{audio:'AgAA'},{audio:'AwAA'}]});
+ f.get('blast').value='3';await f.get('start').onclick();assert.equal(f.sources[1].buffer.tag,3);assert.equal(f.get('blast').disabled,true);
+ f.advance(1);await f.get('start').onclick();assert.equal(f.sources[3].buffer.tag,3);
+ f.get('stop').onclick();f.get('blast').value='1';await f.get('testBlast').onclick();assert.equal(f.sources.at(-1).buffer.tag,1);f.cleanup();
 });

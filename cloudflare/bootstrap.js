@@ -3,18 +3,18 @@ const AUDIO_CACHE='bomb-audio-v1';
 const status=document.querySelector('#offlineStatus');
 const button=document.querySelector('#download');
 const manifest=await fetch('./audio.json').then(r=>{if(!r.ok)throw Error('Audio list unavailable');return r.json()});
-const urls=[...manifest.tracks.map(t=>t.url),manifest.explosion];
+const urls=[...manifest.tracks,...manifest.explosions].map(t=>t.url);
 async function stored(url){return 'caches' in window ? (await caches.open(AUDIO_CACHE)).match(new URL(url,location.href)) : undefined}
 async function refresh(){
  const count=(await Promise.all(urls.map(stored))).filter(Boolean).length;
  const registration='serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
  const shellReady=!!registration?.active;
- status.textContent=count===urls.length && shellReady ? `Ready for offline play: all ${manifest.tracks.length} tracks and explosion downloaded.` : `${navigator.onLine?'Online':'Offline'} · ${count}/${urls.length} audio files downloaded. ${shellReady?'':'Offline page is preparing.'}`;
+ status.textContent=count===urls.length && shellReady ? `Ready for offline play: all ${manifest.tracks.length} tracks and ${manifest.explosions.length} explosions downloaded.` : `${navigator.onLine?'Online':'Offline'} · ${count}/${urls.length} audio files downloaded. ${shellReady?'':'Offline page is preparing.'}`;
  button.textContent=count===urls.length && shellReady?'Check offline downloads':'Download for offline play (all bundled audio)';
 }
 const data={...manifest,
  async loadAudio(kind,index){
-  const url=kind==='music'?manifest.tracks[index]?.url:manifest.explosion;
+  const url=kind==='music'?manifest.tracks[index]?.url:manifest.explosions[index]?.url;
   if(!url)throw Error('Choose an available track.');
   let response=await stored(url);
   if(!response){

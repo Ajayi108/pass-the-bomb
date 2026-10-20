@@ -58,3 +58,34 @@ Downloaded unmodified on 2026-10-20. Creator for each: Kevin MacLeod (incompetec
 | cipher.mp3 | Cipher | https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1100844 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Cipher2.mp3 |
 
 Required attribution: “EDM Detection Mode”, “Glitter Blast”, and “Cipher” by Kevin MacLeod (incompetech.com), licensed under Creative Commons: By Attribution 4.0 License, https://creativecommons.org/licenses/by/4.0/ . No file changes; recordings loop during play.
+
+
+## Twenty-track library expansion
+
+Downloaded from the original creator, 2026-10-20. Creator: Kevin MacLeod (incompetech.com). The creator lists these works in the Creative Commons licensing catalog at https://incompetech.com/music/royalty-free/licenses/ . Required credit for each: “TITLE” Kevin MacLeod (incompetech.com), licensed under Creative Commons: By Attribution 4.0 License, https://creativecommons.org/licenses/by/4.0/ . Retain title, creator, source and license link when redistributing. Recordings unmodified; playback loops them.
+
+| Title | Bundled filename | Original download/source |
+| --- | --- | --- |
+| Who Likes to Party | who-likes-to-party.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Who%20Likes%20to%20Party.mp3 |
+| Funky Chunk | funky-chunk.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Funky%20Chunk.mp3 |
+| Club Diver | club-diver.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Club%20Diver.mp3 |
+| Cut Trance | cut-trance.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Cut%20Trance.mp3 |
+| Latin Industries | latin-industries.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Latin%20Industries.mp3 |
+| Carefree | carefree.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Carefree.mp3 |
+| Funky One | funky-one.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Funky%20One.mp3 |
+| Funk Game Loop | funk-game-loop.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Funk%20Game%20Loop.mp3 |
+| Disco Lounge | disco-lounge.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Disco%20Lounge.mp3 |
+| RetroFuture Clean | retrofuture-clean.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/RetroFuture%20Clean.mp3 |
+| Wallpaper | wallpaper.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Wallpaper.mp3 |
+| Local Forecast - Elevator | local-forecast-elevator.mp3 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Local%20Forecast%20-%20Elevator.mp3 |
+
+## Four selectable explosions
+
+All by EZduzziteh, from https://opengameart.org/content/explosions-4 , CC0 1.0 https://creativecommons.org/publicdomain/zero/1.0/ . Attribution not required; voluntary credit is retained. The originals were converted to PCM WAV without creative changes.
+
+| Selection | Bundled file | Original download |
+| --- | --- | --- |
+| Classic boom | explosion.wav | https://opengameart.org/sites/default/files/explosion1.ogg |
+| Blast 2 | explosion-2.wav | https://opengameart.org/sites/default/files/explosion2.ogg |
+| Blast 3 | explosion-3.wav | https://opengameart.org/sites/default/files/explosion3.ogg |
+| Blast 4 | explosion-4.wav | https://opengameart.org/sites/default/files/explosions4.ogg |

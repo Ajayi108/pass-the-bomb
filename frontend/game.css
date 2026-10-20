@@ -137,3 +137,4 @@ button:active:not(:disabled){transform:translateY(1px)}
 .party[data-motion=off] *,.party[data-motion=off] *::before,.party[data-motion=off] *::after{animation:none!important;transition:none!important}
 @media(max-width:600px){.bomb-stage{width:145px;margin:8px auto}.bomb-stage .bomb{margin:14px auto 8px}.beat{height:16px}.game-controls{margin-top:14px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.burst{display:none}}
+.explosion-choice{margin-top:14px}.explosion-choice select{border-color:#557fa8}

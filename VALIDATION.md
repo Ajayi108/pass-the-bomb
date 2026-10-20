@@ -14,3 +14,5 @@ Phone UI update: compact header/arena, full-width primary action, prominent acti
 Animation/usability update: six Node tests pass. Browser at phone width verified preview feedback, starting play clears preview feedback, Loading/Playing controls, and Reset back to Ready. Inspected blue phone layout and saved mobile-preview.png. Decorative animations use fixed CSS durations, not the hidden deadline; reduced-motion and manual motion-off rules disable them.
 
 Cloudflare standalone validation: build completes with bundled licensed audio and generated versioned service worker. Six shared engine tests pass. Browser completed a 1–2 second standalone round. Downloaded all six audio assets, stopped the local HTTP server, and reloaded the page successfully from the service worker cache. Tested starting another round using cached audio. Real-device offline/Bluetooth listening still requires manual verification.
+
+Music library expansion: eight MP3 recordings validated with soundfile, all below Cloudflare's 25 MiB per-file limit. Shared engine tests: six pass. Cloudflare build succeeds; audio_catalog.json is now the common catalog for both versions.

@@ -9,3 +9,5 @@ __pycache__/
 pass-the-bomb-deploy.zip
 
 cloudflare/dist/
+
+cloudflare-deploy.zip

@@ -1,6 +1,8 @@
 # Pass the Bomb
 
-Play online: https://ajayi108-pass-the-bomb.streamlit.app/
+Play on Cloudflare: https://ajayi108-pass-the-bomb.pages.dev/
+
+Play on Streamlit: https://ajayi108-pass-the-bomb.streamlit.app/
 
 Source: https://github.com/Ajayi108/pass-the-bomb
 

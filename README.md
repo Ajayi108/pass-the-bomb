@@ -1,5 +1,9 @@
 # Pass the Bomb
 
+Play online: https://ajayi108-pass-the-bomb.streamlit.app/
+
+Source: https://github.com/Ajayi108/pass-the-bomb
+
 An in-person Streamlit party game: pass a soft ball while dance music plays. An unpredictable explosion ends the round. Whoever holds the ball loses; if airborne, the thrower loses. Choose elimination, a funny challenge, or a point penalty. One host device and speaker; no accounts or scoring.
 
 ## Run locally
@@ -42,7 +46,7 @@ For permanent replacement, put licensed recordings under the filenames in app.py
 3. Select your repository, the branch containing the app (usually main), and app.py as the entrypoint. Choose a supported Python version (3.12+ recommended) in advanced settings.
 4. Deploy, open the app URL, connect a speaker and test both sounds. Updates pushed to that branch redeploy the app.
 
-No secrets, database, ffmpeg, external backend, or paid audio hosting is required. Streamlit is the only runtime dependency; paths work on Linux. Free hosting is subject to Community Cloud resource limits and current availability. No external deployment was performed; account login and deployment remain your steps.
+No secrets, database, ffmpeg, external backend, or paid audio hosting is required. Streamlit is the only runtime dependency; paths work on Linux. Free hosting is subject to Community Cloud resource limits and current availability. Deployed on Streamlit Community Cloud from this repository’s main branch using app.py.
 
 ## Troubleshooting and limits
 

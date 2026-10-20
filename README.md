@@ -33,7 +33,7 @@ Defaults are 20–60 seconds. Choose a fixed soundtrack or Random each round (re
 
 Stop cancels all pending sounds and automatic starts without an explosion; cancelled rounds do not advance the round number. Reset also clears completed rounds. Auto-next-round is off by default. Its break countdown defaults to eight seconds, extended to the explosion length if necessary. Stop or Reset cancels the break.
 
-Five real downloaded MP3 recordings and an explosion are included in assets/audio/ (about 35 MB). No external audio is fetched during play. See ASSET_CREDITS.md for sources, licenses, and attribution. Full recordings loop; boundaries may be audible.
+Eight real downloaded MP3 recordings and an explosion are included in assets/audio/ (see assets/audio for total size). No external audio is fetched during play. See ASSET_CREDITS.md for sources, licenses, and attribution. Full recordings loop; boundaries may be audible.
 
 Custom uploads support MP3 and WAV, at most 15 MB and 10 minutes each. Uploads stay in browser memory for this mounted session: never saved to the server or repository. Clear the upload to restore defaults. Invalid files show a helpful message when tested/started. Standard MP3 or PCM WAV gives broad compatibility.
 
@@ -75,3 +75,6 @@ Animation and usability update: constant-speed floating bomb, loading orbit, dec
 ## Cloudflare standalone version
 
 Build with `python cloudflare/build.py`. Deploy using Cloudflare Pages with repository root as the root directory, build command `python cloudflare/build.py`, and output directory `cloudflare/dist`. See cloudflare/README.md for offline caching, local preview, and deployment details. Streamlit continues using app.py and shares the same game engine.
+
+
+Both versions read audio_catalog.json to keep the same eight-track library. Keep this file with the app when deploying. Added EDM Detection Mode, Glitter Blast, and Cipher; see ASSET_CREDITS.md for attribution.

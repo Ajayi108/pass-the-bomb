@@ -1,5 +1,6 @@
 from pathlib import Path
 import base64
+import json
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parent
@@ -9,7 +10,8 @@ st.markdown("<style>" + (ROOT / "frontend/shell.css").read_text(encoding="utf-8"
 @st.cache_data
 def bundled_audio():
     tracks = []
-    for filename, title in [("disco-medusae.mp3", "Disco Medusae"), ("funkorama.mp3", "Funkorama"), ("electrodoodle.mp3", "Electrodoodle"), ("exit-the-premises.mp3", "Exit the Premises"), ("sneaky-snitch.mp3", "Sneaky Snitch")]:
+    for item in json.loads((ROOT / "audio_catalog.json").read_text(encoding="utf-8")):
+        filename, title = item["file"], item["title"]
         path = ROOT / "assets" / "audio" / filename
         if path.exists():
             tracks.append({"title": title, "audio": base64.b64encode(path.read_bytes()).decode()})

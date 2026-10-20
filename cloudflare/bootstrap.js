@@ -9,8 +9,8 @@ async function refresh(){
  const count=(await Promise.all(urls.map(stored))).filter(Boolean).length;
  const registration='serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
  const shellReady=!!registration?.active;
- status.textContent=count===urls.length && shellReady ? 'Ready for offline play: all 5 tracks and explosion downloaded.' : `${navigator.onLine?'Online':'Offline'} · ${count}/${urls.length} audio files downloaded. ${shellReady?'':'Offline page is preparing.'}`;
- button.textContent=count===urls.length && shellReady?'Check offline downloads':'Download for offline play (~34 MB)';
+ status.textContent=count===urls.length && shellReady ? `Ready for offline play: all ${manifest.tracks.length} tracks and explosion downloaded.` : `${navigator.onLine?'Online':'Offline'} · ${count}/${urls.length} audio files downloaded. ${shellReady?'':'Offline page is preparing.'}`;
+ button.textContent=count===urls.length && shellReady?'Check offline downloads':'Download for offline play (all bundled audio)';
 }
 const data={...manifest,
  async loadAudio(kind,index){

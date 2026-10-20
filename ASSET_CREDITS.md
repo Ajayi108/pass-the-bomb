@@ -46,3 +46,15 @@ Original download filenames:
 - Sneaky Snitch.mp3: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Sneaky%20Snitch.mp3
 
 Mission: Impossible was requested but is not included. No redistribution license was established. Use the temporary Custom music upload for a copy you are authorized to use; no unavailable recording is represented as bundled.
+
+## Eight-track library additions
+
+Downloaded unmodified on 2026-10-20. Creator for each: Kevin MacLeod (incompetech.com). License: Creative Commons Attribution 4.0, https://creativecommons.org/licenses/by/4.0/ . Redistribution in the public repository and bundled playback are permitted with these credits and license link.
+
+| File | Title | Source / license page | Direct download |
+| --- | --- | --- | --- |
+| edm-detection-mode.mp3 | EDM Detection Mode | https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1500026 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/EDM%20Detection%20Mode.mp3 |
+| glitter-blast.mp3 | Glitter Blast | https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1900001 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Glitter%20Blast.mp3 |
+| cipher.mp3 | Cipher | https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1100844 | https://incompetech.com/music/royalty-free/mp3-royaltyfree/Cipher2.mp3 |
+
+Required attribution: “EDM Detection Mode”, “Glitter Blast”, and “Cipher” by Kevin MacLeod (incompetech.com), licensed under Creative Commons: By Attribution 4.0 License, https://creativecommons.org/licenses/by/4.0/ . No file changes; recordings loop during play.

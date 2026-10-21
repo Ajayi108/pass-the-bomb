@@ -40,3 +40,11 @@ test('online navigation uses current HTML rather than an old cached page',async(
  // The network response must be a successful response to replace cached HTML.
  fresh.ok=true;assert.equal(await response,fresh);
 });
+
+test('cached redirected policy is normalized for browser navigation',async()=>{
+ let handler;const cached={redirected:true,body:'Privacy policy',status:200,statusText:'OK',headers:{'Content-Type':'text/html'}};
+ const context={URL,Response,fetch:async()=>{throw Error('Offline');},caches:{open:async()=>({match:async()=>cached})},self:{location:{origin:'https://example.test'},addEventListener(name,fn){if(name==='fetch')handler=fn;}}};
+ vm.runInNewContext(sw.replace('__SHELL__','[]'),context);
+ let result;handler({request:{url:'https://example.test/privacy',method:'GET',mode:'navigate'},respondWith(p){result=p;}});
+ const response=await result;assert.equal(response.redirected,false);assert.equal(await response.text(),'Privacy policy');
+});

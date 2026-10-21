@@ -24,7 +24,11 @@ self.addEventListener('fetch', event => {
       try {const response=await fetch(event.request); if(response.ok)return response;} catch {}
     }
     const found = await cache.match(privacy ? 'privacy.html' : event.request);
-    if(found) return found;
+    if(found) {
+      // Cached /privacy.html may have followed Cloudflare's redirect to /privacy.
+      // Navigation requests can reject a redirected cached response.
+      return found.redirected ? new Response(found.body,{status:found.status,statusText:found.statusText,headers:found.headers}) : found;
+    }
     try {
       const response = await fetch(event.request);
       if (media && response.ok) { try { await cache.put(event.request,response.clone()); } catch {} }

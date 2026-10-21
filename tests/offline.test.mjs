@@ -6,7 +6,7 @@ const bootstrap=readFileSync(new URL('../cloudflare/bootstrap.js',import.meta.ur
 
 test('blocked storage permits online audio and back-cache restore reloads the engine',async()=>{
  const listeners={};const elements={};let mounted,cleaned=false,reloaded=false;
- const context={URL,crypto:globalThis.crypto,console,
+ const context={URL,AbortSignal,crypto:globalThis.crypto,console,
   location:{href:'https://example.test/',reload(){reloaded=true;}},
   navigator:{onLine:true},
   caches:{async open(){throw Error('Storage denied');}},
@@ -47,4 +47,24 @@ test('cached redirected policy is normalized for browser navigation',async()=>{
  vm.runInNewContext(sw.replace('__SHELL__','[]'),context);
  let result;handler({request:{url:'https://example.test/privacy',method:'GET',mode:'navigate'},respondWith(p){result=p;}});
  const response=await result;assert.equal(response.redirected,false);assert.equal(await response.text(),'Privacy policy');
+});
+
+test('failed startup disables controls, shows retry, and recovers without reloading',async()=>{
+ const elements={};let fail=true,mounts=0;
+ const context={URL,AbortSignal,crypto:globalThis.crypto,console,
+  location:{href:'https://example.test/'},navigator:{onLine:true},
+  document:{querySelector(selector){return elements[selector]??={disabled:selector==='#stop'};}},
+  window:{addEventListener(){}},
+  async fetch(){if(fail)throw Error('Network lost');return {ok:true,json:async()=>({tracks:[{url:'music.mp3'}],explosions:[{url:'boom.wav'}]})};},
+  mount(){mounts++;return ()=>{};}
+ };
+ await vm.runInNewContext('(async()=>{'+bootstrap+'})()',context);
+ assert.equal(mounts,0);assert.equal(elements['#start'].disabled,true);
+ assert.match(elements['#error'].textContent,/could not load/);
+ assert.equal(elements['#download'].textContent,'Retry loading game');
+ assert.equal(elements['#download'].disabled,false);
+ fail=false;await elements['#download'].onclick();
+ assert.equal(mounts,1);assert.equal(elements['#start'].disabled,false);
+ assert.equal(elements['#stop'].disabled,true);assert.equal(elements['#error'].textContent,'');
+ assert.equal(elements['#state'].textContent,'Ready');
 });

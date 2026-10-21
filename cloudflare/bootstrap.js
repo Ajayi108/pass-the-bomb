@@ -2,7 +2,15 @@ import mount from './game.js';
 const AUDIO_CACHE='bomb-audio-v1';
 const status=document.querySelector('#offlineStatus');
 const button=document.querySelector('#download');
-const manifest=await fetch('./audio.json').then(r=>{if(!r.ok)throw Error('Audio list unavailable');return r.json()});
+const controlIds=['start','stop','reset','track','blast','testMusic','stopPreview','settings','testBlast'];
+const initialDisabled=new Map(controlIds.map(id=>[id,document.querySelector('#'+id).disabled]));
+async function initialize(){
+const response=await fetch('./audio.json',{signal:AbortSignal.timeout(15000)});
+if(!response.ok)throw Error('Audio list unavailable');
+const manifest=await response.json();
+if(!Array.isArray(manifest.tracks)||!manifest.tracks.length||!Array.isArray(manifest.explosions)||!manifest.explosions.length)throw Error('Audio list invalid');
+for(const [id,disabled] of initialDisabled)document.querySelector('#'+id).disabled=disabled;
+
 const urls=[...manifest.tracks,...manifest.explosions].map(t=>t.url);
 async function stored(url){
  try {return 'caches' in window ? await (await caches.open(AUDIO_CACHE)).match(new URL(url,location.href)) : undefined;}
@@ -63,3 +71,28 @@ if('serviceWorker' in navigator){
 }
 window.addEventListener('online',refresh);window.addEventListener('offline',refresh);
 await refresh();
+
+}
+async function loadGame(){
+ for(const id of controlIds)document.querySelector('#'+id).disabled=true;
+ button.disabled=true;
+ document.querySelector('#state').textContent='Loading';
+ document.querySelector('#headline').textContent='Loading the game…';
+ document.querySelector('#error').textContent='';
+ status.textContent='Loading audio list…';
+ try {
+  await initialize();
+  document.querySelector('#state').textContent='Ready';
+  document.querySelector('#headline').textContent='Gather your circle.';
+ } catch {
+  for(const id of controlIds)document.querySelector('#'+id).disabled=true;
+  document.querySelector('#state').textContent='Connection needed';
+  document.querySelector('#headline').textContent='Let’s reconnect.';
+  const message='The audio list could not load. Check your connection, then press Retry loading game below.';
+  document.querySelector('#error').textContent=message;
+  status.textContent=message;
+  button.textContent='Retry loading game';
+  button.onclick=loadGame;
+ } finally {button.disabled=false;}
+}
+await loadGame();

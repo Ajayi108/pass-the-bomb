@@ -83,3 +83,5 @@ Both versions read audio_catalog.json to keep the same twenty-track library. Kee
 
 
 Explosion sound is a fixed host selection (Classic boom, Blast 2, Blast 3, or Blast 4), never random. Uploading a custom explosion selects it; the host may switch back without clearing the file. Both versions preload the selected music and explosion before play. Streamlit copies bundled audio into an ignored static/audio directory for individual requests; Cloudflare serves the same recordings from assets/audio. Only three decoded buffers are retained to reduce phone memory use.
+
+Link previews: Cloudflare output includes Open Graph and Twitter large-image card metadata in initial HTML, with a 1200×630 original share image at /share-card-v1.png. Social apps may cache old previews; their fetch/privacy settings determine whether a card is shown. No JavaScript is required to read the metadata.

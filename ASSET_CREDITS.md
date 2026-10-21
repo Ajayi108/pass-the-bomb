@@ -89,3 +89,5 @@ All by EZduzziteh, from https://opengameart.org/content/explosions-4 , CC0 1.0 h
 | Blast 2 | explosion-2.wav | https://opengameart.org/sites/default/files/explosion2.ogg |
 | Blast 3 | explosion-3.wav | https://opengameart.org/sites/default/files/explosion3.ogg |
 | Blast 4 | explosion-4.wav | https://opengameart.org/sites/default/files/explosions4.ogg |
+
+Share-card asset: assets/images/share-card-v1.png is original app artwork drawn locally using Python/Pillow; no third-party image source or attribution is required.

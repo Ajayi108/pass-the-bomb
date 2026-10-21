@@ -19,12 +19,12 @@ function fixture(overrides={}){
 }
 test('one start, loop and synchronized explosion, next and reset',async()=>{
  const f=fixture();const first=f.get('start').onclick();await f.get('start').onclick();await first;
- assert.equal(f.sources.length,2);assert.equal(f.sources[0].loop,true);assert.equal(f.sources[0].stopped,f.sources[1].started);
+ assert.equal(f.get('speakerReminder').hidden,true);assert.equal(f.sources.length,2);assert.equal(f.sources[0].loop,true);assert.equal(f.sources[0].stopped,f.sources[1].started);
  assert.equal(f.get('state').textContent,'Playing');assert.equal(f.get('settings').disabled,true);
  assert.ok(!f.get('message').textContent.includes('0.'));
  f.advance(1);assert.equal(f.get('state').textContent,'Exploded');assert.equal(f.get('round').textContent,'ROUND 1');
  await f.get('start').onclick();assert.equal(f.get('round').textContent,'ROUND 2');
- f.get('reset').onclick();assert.equal(f.get('round').textContent,'ROUND 1');f.advance(100);assert.equal(f.get('state').textContent,'Ready');f.cleanup();
+ f.get('reset').onclick();assert.equal(f.get('speakerReminder').hidden,true);assert.equal(f.get('round').textContent,'ROUND 1');f.advance(100);assert.equal(f.get('state').textContent,'Ready');f.cleanup();
 });
 test('stop cancels scheduled explosion and does not count a round',async()=>{
  const f=fixture();await f.get('start').onclick();f.get('stop').onclick();assert.equal(f.sources[1].stopped,undefined);assert.ok(f.sources[1].stops);f.advance(100);assert.equal(f.get('state').textContent,'Stopped');assert.equal(f.get('round').textContent,'ROUND 1');f.cleanup();

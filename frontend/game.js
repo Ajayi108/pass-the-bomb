@@ -88,7 +88,7 @@ export default function(component) {
     if (busy() || disposed) return;
     let token = generation;
     try {
-      config = validate(); const resumed = unlock(); cancel(); token = generation;
+      config = validate(); $('speakerReminder').hidden = true; const resumed = unlock(); cancel(); token = generation;
       $('error').textContent = ''; show('Loading Audio','Getting the beat ready…','Preparing music and explosion.');
       await resumed;
       const selected = await pick();
@@ -135,6 +135,7 @@ export default function(component) {
       s.start(); if (kind === 'music') s.stop(ctx.currentTime + 15);
     } catch(e) { if (token === generation && !disposed) fail(e); }
   }
+  $('dismissSpeaker').onclick = () => { $('speakerReminder').hidden = true; };
   $('start').onclick = start;
   $('stop').onclick = () => { cancel(); show('Stopped','Round stopped.','No elimination. Press Start to try this round again.'); };
   $('reset').onclick = () => { cancel(); completed = 0; $('error').textContent = ''; show('Ready','Gather your circle.','Grab a soft ball. Turn up the speaker. Let’s play.'); };

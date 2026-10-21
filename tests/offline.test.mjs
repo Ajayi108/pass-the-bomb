@@ -31,3 +31,12 @@ test('offline Privacy clean URL serves cached policy, unknown routes never serve
  assert.equal(await request('/privacy'),policy);
  assert.equal((await request('/missing')).type,'error');
 });
+
+test('online navigation uses current HTML rather than an old cached page',async()=>{
+ let handler;const fresh={fresh:true};const stale={stale:true};
+ const context={URL,Response,fetch:async()=>fresh,caches:{open:async()=>({match:async()=>stale})},self:{location:{origin:'https://example.test'},addEventListener(name,fn){if(name==='fetch')handler=fn;}}};
+ vm.runInNewContext(sw.replace('__SHELL__','[]'),context);
+ let response;handler({request:{url:'https://example.test/',method:'GET',mode:'navigate'},respondWith(p){response=p;}});
+ // The network response must be a successful response to replace cached HTML.
+ fresh.ok=true;assert.equal(await response,fresh);
+});

@@ -4,7 +4,8 @@ const AUDIO = 'bomb-audio-v1'; // Immutable filenames: change name if a recordin
 const FILES = __SHELL__;
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(SHELL).then(cache => cache.addAll(FILES)));
-  // Wait for existing game tabs to close before updating their code.
+  // Activate new caches without reloading or interrupting an ongoing round.
+  self.skipWaiting();
 });
 self.addEventListener('activate', event => event.waitUntil((async()=>{
   for (const key of await caches.keys()) if(key.startsWith('bomb-shell-') && key!==SHELL) await caches.delete(key);
@@ -18,6 +19,10 @@ self.addEventListener('fetch', event => {
     let cache;
     try {cache = await caches.open(media ? AUDIO : SHELL);} catch {return fetch(event.request);}
     const privacy = ['/privacy','/privacy/','/privacy.html'].includes(url.pathname);
+    // Online navigation gets current HTML; cached pages remain available offline.
+    if (event.request.mode === 'navigate') {
+      try {const response=await fetch(event.request); if(response.ok)return response;} catch {}
+    }
     const found = await cache.match(privacy ? 'privacy.html' : event.request);
     if(found) return found;
     try {

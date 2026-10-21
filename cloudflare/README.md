@@ -18,7 +18,7 @@ Alternatively upload the contents of cloudflare/dist with Pages Direct Upload.
 
 Offline: click Download for offline play and wait for “Ready for offline play”. The service worker stores the page/code and all twenty music files plus four explosions. Each round fully downloads/decodes audio before scheduling playback. Offline random chooses from cached tracks. User uploads remain only in browser memory and are never included in persistent caches. Closing/reloading clears uploads; browser eviction or clearing site data removes offline files. Reopen online and download again if necessary. Keep the tab active and device awake. Background suspension/locked phones cannot be guaranteed.
 
-Service worker upgrades wait until existing game tabs close. The audio cache uses immutable filenames: rename a recording and update build.py if its contents change. HTML/code caches use content-based build versions. The build output is generated, ignored by Git, and includes all license credits.
+Service worker upgrades activate without reloading active game tabs. Online navigation checks the network for current HTML; offline navigation uses the cached page. Refresh to load interface updates. The audio cache uses immutable filenames: rename a recording and update build.py if its contents change. HTML/code caches use content-based build versions. The build output is generated, ignored by Git, and includes all license credits.
 
 
 Live site: https://ajayi108-pass-the-bomb.pages.dev/ . Published via Pages Direct Upload. This project has no Git connection: future GitHub pushes update Streamlit, but Cloudflare requires rebuilding and uploading cloudflare/dist (folder upload, not a ZIP exceeding 25 MiB).

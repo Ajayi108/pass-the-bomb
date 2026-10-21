@@ -49,7 +49,7 @@ privacy_body=(ROOT/'frontend/privacy.html').read_text(encoding='utf-8')
 (OUT/'privacy.html').write_text('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Privacy | Pass the Bomb</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="site.css"><style>.privacy{max-width:760px;margin:auto;line-height:1.7;padding:24px 0}.privacy h1{font-size:36px;letter-spacing:-1px}.privacy h2{font-size:21px;margin-top:28px}.privacy a{color:#9ad0ff}.privacy p{color:#dbe9fa}</style></head><body><main class="privacy"><a href="/">← Back to the game</a>'+privacy_body+'</main>'+creator+'</body></html>',encoding='utf-8')
 files=['./','index.html','game.js','game.css','site.css','bootstrap.js','audio.json','ASSET_CREDITS.md','share-card-v1.png','favicon.svg','favicon.ico','apple-touch-icon.png','icon-192.png','icon-512.png','manifest.webmanifest','privacy.html']
 media=[x['url'] for x in manifest['tracks']+manifest['explosions']]
-version=hashlib.sha256(b''.join((OUT/p).read_bytes() for p in files if p!='./')+b''.join((OUT/p).read_bytes() for p in media)).hexdigest()[:12]
+version=hashlib.sha256((ROOT/'cloudflare/sw.js').read_bytes()+b''.join((OUT/p).read_bytes() for p in files if p!='./')+b''.join((OUT/p).read_bytes() for p in media)).hexdigest()[:12]
 sw=(ROOT/'cloudflare/sw.js').read_text(encoding='utf-8').replace('__VERSION__',version).replace('__SHELL__',json.dumps(files))
 (OUT/'sw.js').write_text(sw,encoding='utf-8')
 (OUT/'_headers').write_text('/sw.js\n  Cache-Control: no-cache\n/index.html\n  Cache-Control: no-cache\n',encoding='utf-8')

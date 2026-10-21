@@ -3,7 +3,7 @@ import json
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parent
-st.set_page_config(page_title="Pass the Bomb", page_icon="💣", layout="centered")
+st.set_page_config(page_title="Pass the Bomb", page_icon=str(ROOT / "assets/images/icon-192.png"), layout="centered")
 st.markdown("<style>" + (ROOT / "frontend/shell.css").read_text(encoding="utf-8") + "</style>", unsafe_allow_html=True)
 
 def bundled_audio():

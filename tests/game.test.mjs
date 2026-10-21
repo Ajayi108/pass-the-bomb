@@ -49,3 +49,12 @@ test('host-selected explosion stays fixed across rounds and previews',async()=>{
  f.advance(1);await f.get('start').onclick();assert.equal(f.sources[3].buffer.tag,3);
  f.get('stop').onclick();f.get('blast').value='1';await f.get('testBlast').onclick();assert.equal(f.sources.at(-1).buffer.tag,1);f.cleanup();
 });
+
+// Explosion preview must work even when random music has no offline candidates.
+test('explosion preview never requires choosing music',async()=>{
+ const f=fixture({chooseTrack:async()=>{throw Error('No offline music yet');}});
+ await f.get('testBlast').onclick();
+ assert.equal(f.sources.length,1);
+ assert.equal(f.get('error').textContent,'');
+ f.cleanup();
+});

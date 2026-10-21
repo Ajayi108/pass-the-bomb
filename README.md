@@ -38,7 +38,7 @@ Open `http://localhost:8080`. See [Cloudflare deployment instructions](cloudflar
 
 - [Audio sources, licenses and attribution](ASSET_CREDITS.md)
 - [Privacy policy](https://bomb.ajayi.net/privacy)
-- [Validation notes](VALIDATION.md) · Run checks: `node --test tests/game.test.mjs`
+- [Validation notes](VALIDATION.md) · Run checks: `node --test tests/*.test.mjs`
 
 To add bundled audio, place licensed files in `assets/audio/`, update `audio_catalog.json` or `explosion_catalog.json`, and update the credits. Rebuild and redeploy Cloudflare after changes.
 

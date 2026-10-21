@@ -4,10 +4,14 @@ const status=document.querySelector('#offlineStatus');
 const button=document.querySelector('#download');
 const manifest=await fetch('./audio.json').then(r=>{if(!r.ok)throw Error('Audio list unavailable');return r.json()});
 const urls=[...manifest.tracks,...manifest.explosions].map(t=>t.url);
-async function stored(url){return 'caches' in window ? (await caches.open(AUDIO_CACHE)).match(new URL(url,location.href)) : undefined}
+async function stored(url){
+ try {return 'caches' in window ? await (await caches.open(AUDIO_CACHE)).match(new URL(url,location.href)) : undefined;}
+ catch {return undefined;} // Restricted/private storage must not prevent online play.
+}
 async function refresh(){
  const count=(await Promise.all(urls.map(stored))).filter(Boolean).length;
- const registration='serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
+ let registration;
+ try {registration='serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;}catch{}
  const shellReady=!!registration?.active;
  status.textContent=count===urls.length && shellReady ? `Ready for offline play: all ${manifest.tracks.length} tracks and ${manifest.explosions.length} explosions downloaded.` : `${navigator.onLine?'Online':'Offline'} · ${count}/${urls.length} audio files downloaded. ${shellReady?'':'Offline page is preparing.'}`;
  button.textContent=count===urls.length && shellReady?'Check offline downloads':'Download for offline play (all bundled audio)';
@@ -33,11 +37,15 @@ const data={...manifest,
 };
 const cleanup=mount({parentElement:document.querySelector('#game'),data});
 window.addEventListener('pagehide',()=>cleanup?.(),{once:true});
+// A back/forward-cache restore keeps the old DOM but its audio engine was disposed.
+window.addEventListener('pageshow',event=>{if(event.persisted)location.reload();});
+let registrationPromise;
 button.onclick=async()=>{
  button.disabled=true;
  try{
   if(!('caches' in window)||!('serviceWorker' in navigator))throw Error('Offline downloads require HTTPS and a browser with offline storage support.');
-  await navigator.serviceWorker.ready;
+  if(!registrationPromise)throw Error('Offline page caching unavailable. Online play still works.');
+  await registrationPromise;
   for(let i=0;i<urls.length;i++){
    status.textContent=`Downloading audio ${i+1}/${urls.length}… Keep this page open.`;
    if(!await stored(urls[i])){
@@ -50,7 +58,8 @@ button.onclick=async()=>{
  finally{button.disabled=false;}
 };
 if('serviceWorker' in navigator){
- navigator.serviceWorker.register('./sw.js').then(()=>navigator.serviceWorker.ready).then(refresh).catch(()=>{status.textContent='Offline page caching unavailable. Online and custom-upload play still work.'});
+ registrationPromise=navigator.serviceWorker.register('./sw.js').then(()=>navigator.serviceWorker.ready);
+ registrationPromise.then(refresh).catch(()=>{status.textContent='Offline page caching unavailable. Online and custom-upload play still work.'});
 }
 window.addEventListener('online',refresh);window.addEventListener('offline',refresh);
 await refresh();

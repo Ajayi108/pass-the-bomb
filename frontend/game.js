@@ -126,7 +126,7 @@ export default function(component) {
     let token = generation;
     try {
       const resumed = unlock(); cancel(); token = generation; $('error').textContent = '';
-      await resumed; const buffer = await decode(kind,await pick());
+      await resumed; const buffer = await decode(kind,kind === 'music' ? await pick() : undefined);
       if (token !== generation || busy() || disposed) return;
       const s = source(buffer,Number($(kind === 'music' ? 'musicVolume' : 'blastVolume').value),kind === 'music');
       $('previewStatus').textContent = kind === 'music' ? 'Playing a 15-second music preview…' : 'Playing the explosion preview…';

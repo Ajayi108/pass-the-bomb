@@ -15,15 +15,17 @@ self.addEventListener('fetch', event => {
   if (url.origin !== self.location.origin || event.request.method !== 'GET') return;
   event.respondWith((async()=>{
     const media = url.pathname.includes('/assets/audio/');
-    const cache = await caches.open(media ? AUDIO : SHELL);
-    const found = await cache.match(event.request);
+    let cache;
+    try {cache = await caches.open(media ? AUDIO : SHELL);} catch {return fetch(event.request);}
+    const privacy = ['/privacy','/privacy/','/privacy.html'].includes(url.pathname);
+    const found = await cache.match(privacy ? 'privacy.html' : event.request);
     if(found) return found;
     try {
       const response = await fetch(event.request);
       if (media && response.ok) { try { await cache.put(event.request,response.clone()); } catch {} }
       return response;
     } catch(e) {
-      if(event.request.mode==='navigate') return (await cache.match('index.html')) || Response.error();
+      if(event.request.mode==='navigate' && url.pathname==='/') return (await cache.match('index.html')) || Response.error();
       return Response.error();
     }
   })());

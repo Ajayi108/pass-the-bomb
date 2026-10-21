@@ -138,4 +138,4 @@ button:active:not(:disabled){transform:translateY(1px)}
 @media(max-width:600px){.bomb-stage{width:145px;margin:8px auto}.bomb-stage .bomb{margin:14px auto 8px}.beat{height:16px}.game-controls{margin-top:14px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.burst{display:none}}
 .explosion-choice{margin-top:14px}.explosion-choice select{border-color:#557fa8}
-footer p{margin:0 0 18px}.creator{border-top:1px solid #355b87;padding-top:16px}.creator>span{display:block;color:#dbe9fa;font-size:12px}.creator nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:6px}.creator a{display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;color:#9ad0ff;text-decoration:underline;text-underline-offset:4px;font-size:12px}.creator a:hover{color:#ffd575}.creator a:focus-visible{outline:3px solid #ffcb57;outline-offset:2px;border-radius:6px}
+footer p{margin:0}

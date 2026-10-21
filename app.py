@@ -26,3 +26,5 @@ game = st.components.v2.component("pass_the_bomb", html=(ROOT / "frontend/game.h
 game(data=bundled_audio(), key="party_game")
 with st.expander("Audio credits & licenses"):
     st.markdown((ROOT / "ASSET_CREDITS.md").read_text(encoding="utf-8"))
+
+st.html("<style>" + (ROOT / "frontend/creator.css").read_text(encoding="utf-8") + "</style>" + (ROOT / "frontend/creator.html").read_text(encoding="utf-8"))

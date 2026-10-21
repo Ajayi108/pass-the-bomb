@@ -27,4 +27,7 @@ game(data=bundled_audio(), key="party_game")
 with st.expander("Audio credits & licenses"):
     st.markdown((ROOT / "ASSET_CREDITS.md").read_text(encoding="utf-8"))
 
+with st.expander("Privacy policy"):
+    st.html((ROOT / "frontend/privacy.html").read_text(encoding="utf-8"))
+
 st.html("<style>" + (ROOT / "frontend/creator.css").read_text(encoding="utf-8") + "</style>" + (ROOT / "frontend/creator.html").read_text(encoding="utf-8"))

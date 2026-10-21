@@ -43,6 +43,8 @@ const data={...manifest,
   return choices[crypto.getRandomValues(new Uint32Array(1))[0]/4294967296*choices.length|0];
  }
 };
+document.querySelector('#state').textContent='Ready';
+document.querySelector('#headline').textContent='Gather your circle.';
 const cleanup=mount({parentElement:document.querySelector('#game'),data});
 window.addEventListener('pagehide',()=>cleanup?.(),{once:true});
 // A back/forward-cache restore keeps the old DOM but its audio engine was disposed.
@@ -82,8 +84,6 @@ async function loadGame(){
  status.textContent='Loading audio list…';
  try {
   await initialize();
-  document.querySelector('#state').textContent='Ready';
-  document.querySelector('#headline').textContent='Gather your circle.';
  } catch {
   for(const id of controlIds)document.querySelector('#'+id).disabled=true;
   document.querySelector('#state').textContent='Connection needed';

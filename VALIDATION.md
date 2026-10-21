@@ -18,3 +18,5 @@ Cloudflare standalone validation: build completes with bundled licensed audio an
 Music library expansion: eight MP3 recordings validated with soundfile, all below Cloudflare's 25 MiB per-file limit. Shared engine tests: six pass. Cloudflare build succeeds; audio_catalog.json is now the common catalog for both versions.
 
 20+4 expansion: all 20 music recordings and 4 WAV explosions decode via soundfile and satisfy the 25 MiB per-file size limit. Seven shared state/audio tests pass, including fixed explosion selection across rounds and previews. Browser on local Streamlit loaded the 20-track picker and four-explosion selector, and completed a 1–2 second round using Who Likes to Party / Blast 3 through static audio fetches. No real-speaker listening claim.
+
+2026-10-21 social preview: deployed Open Graph and Twitter large-image metadata to Cloudflare. Verified public HTML HTTP 200, correct og:image URL, and PNG HTTP 200/image/png at 1200×630 using a facebookexternalhit-style User-Agent. The image also opens in a normal browser. Actual WhatsApp/Facebook preview caches were not purged or tested through a user's account.
